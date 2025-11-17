@@ -1,0 +1,23 @@
+# ComfyUI-DreamCube Requirements
+# Core dependencies for 360° panoramic depth estimation with multi-plane synchronization
+
+# PyTorch - GPU acceleration and tensor operations
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Numerical computing
+numpy>=1.24.0
+scipy>=1.10.0
+
+# Image processing
+pillow>=9.5.0
+opencv-python>=4.7.0
+
+# Tensor operations
+einops>=0.6.1
+
+# Development dependencies (optional)
+# pytest>=7.3.0
+# pytest-cov>=4.1.0
+# black>=23.3.0
+# ruff>=0.0.270
