@@ -9,14 +9,10 @@ License: Apache 2.0
 
 import torch
 import numpy as np
-from pathlib import Path
-import sys
 
-sys.path.append(str(Path(__file__).parent.parent))
-
-from utils.visualization import create_cubemap_preview
-from utils.validation import calculate_seam_quality, validate_cubemap_integrity
-from core.consistency import DepthConsistencyEnforcer
+from ..utils.visualization import create_cubemap_preview
+from ..utils.validation import calculate_seam_quality, validate_cubemap_integrity
+from ..core.consistency import DepthConsistencyEnforcer
 
 
 class CubemapPreview:
@@ -31,8 +27,14 @@ class CubemapPreview:
         return {
             "required": {
                 "cubemap": ("CUBEMAP",),
-                "layout": (["horizontal", "cross", "vertical", "grid"], {"default": "cross"}),
-                "show_depth": ("BOOLEAN", {"default": False}),
+                "layout": (["horizontal", "cross", "vertical", "grid"], {
+                    "default": "cross",
+                    "tooltip": "Choose face arrangement for the preview image"
+                }),
+                "show_depth": ("BOOLEAN", {
+                    "default": False,
+                    "tooltip": "Render depth (if present) instead of RGB"
+                }),
             }
         }
 
@@ -81,7 +83,8 @@ class CubemapSeamValidator:
                     "default": 0.05,
                     "min": 0.0,
                     "max": 1.0,
-                    "step": 0.01
+                    "step": 0.01,
+                    "tooltip": "Maximum allowed seam error; lower = stricter"
                 }),
             }
         }
@@ -189,12 +192,14 @@ class EnforceDepthConsistency:
                     "default": 16,
                     "min": 4,
                     "max": 64,
-                    "step": 4
+                    "step": 4,
+                    "tooltip": "Pixels to blend along each face edge"
                 }),
                 "iterations": ("INT", {
                     "default": 2,
                     "min": 1,
-                    "max": 10
+                    "max": 10,
+                    "tooltip": "Number of smoothing passes"
                 }),
             }
         }
@@ -244,7 +249,8 @@ class SmoothCubemapDepth:
                     "default": 1.0,
                     "min": 0.1,
                     "max": 5.0,
-                    "step": 0.1
+                    "step": 0.1,
+                    "tooltip": "Gaussian sigma; larger = smoother depth"
                 }),
             }
         }
@@ -290,7 +296,8 @@ class CreateEmptyCubemap:
                     "default": 1024,
                     "min": 256,
                     "max": 4096,
-                    "step": 256
+                    "step": 256,
+                    "tooltip": "Face resolution for the new empty cubemap"
                 }),
             }
         }

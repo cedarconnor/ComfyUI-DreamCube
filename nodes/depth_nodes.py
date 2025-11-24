@@ -9,14 +9,10 @@ License: Apache 2.0
 
 import torch
 import numpy as np
-from pathlib import Path
-import sys
 
-sys.path.append(str(Path(__file__).parent.parent))
-
-from core.depth_interface import DepthModelInterface
-from core.consistency import DepthConsistencyEnforcer
-from core.cubemap import CubemapData
+from ..core.depth_interface import DepthModelInterface
+from ..core.consistency import DepthConsistencyEnforcer
+from ..core.cubemap import CubemapData
 
 
 class ApplyDepthToCubemapFace:
@@ -33,7 +29,9 @@ class ApplyDepthToCubemapFace:
             "required": {
                 "cubemap": ("CUBEMAP",),
                 "depth_map": ("IMAGE",),  # Depth from any depth node
-                "face": (["front", "back", "left", "right", "top", "bottom"],),
+                "face": (["front", "back", "left", "right", "top", "bottom"], {
+                    "tooltip": "Target face for this depth map"
+                }),
             }
         }
 
@@ -90,8 +88,14 @@ class BatchCubemapDepth:
                 "depth_right": ("IMAGE",),
                 "depth_top": ("IMAGE",),
                 "depth_bottom": ("IMAGE",),
-                "enforce_consistency": ("BOOLEAN", {"default": True}),
-                "normalization": (["global", "per_face", "adaptive"], {"default": "global"}),
+                "enforce_consistency": ("BOOLEAN", {
+                    "default": True,
+                    "tooltip": "Blend seams after applying depths to reduce edge artifacts"
+                }),
+                "normalization": (["global", "per_face", "adaptive"], {
+                    "default": "global",
+                    "tooltip": "Depth scaling: global = shared min/max; per_face = independent; adaptive = raw"
+                }),
             }
         }
 
@@ -236,7 +240,10 @@ class NormalizeCubemapDepth:
         return {
             "required": {
                 "cubemap": ("CUBEMAP",),
-                "method": (["global", "per_face", "align_scales"], {"default": "global"}),
+                "method": (["global", "per_face", "align_scales"], {
+                    "default": "global",
+                    "tooltip": "global = shared min/max; per_face = independent scaling; align_scales = match reference face"
+                }),
             }
         }
 

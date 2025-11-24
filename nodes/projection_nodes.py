@@ -9,17 +9,12 @@ License: Apache 2.0
 
 import torch
 import numpy as np
-from pathlib import Path
-import sys
 
-# Add parent directory to path for imports
-sys.path.append(str(Path(__file__).parent.parent))
-
-from core.projection import (
+from ..core.projection import (
     equirect_to_cubemap_fast,
     cubemap_to_equirect_fast
 )
-from core.cubemap import CubemapData
+from ..core.cubemap import CubemapData
 
 
 class EquirectToCubemap:
@@ -40,7 +35,8 @@ class EquirectToCubemap:
                     "min": 256,
                     "max": 4096,
                     "step": 256,
-                    "display": "number"
+                    "display": "number",
+                    "tooltip": "Resolution (pixels) for each cube face; higher = sharper faces but more VRAM"
                 }),
             }
         }
@@ -88,15 +84,19 @@ class CubemapToEquirect:
                     "default": 2048,
                     "min": 512,
                     "max": 8192,
-                    "step": 256
+                    "step": 256,
+                    "tooltip": "Output panorama width (typically 2x height)"
                 }),
                 "output_height": ("INT", {
                     "default": 1024,
                     "min": 256,
                     "max": 4096,
-                    "step": 256
+                    "step": 256,
+                    "tooltip": "Output panorama height"
                 }),
-                "output_type": (["rgb", "depth", "rgbd"],),
+                "output_type": (["rgb", "depth", "rgbd"], {
+                    "tooltip": "Choose to render RGB, depth-only, or combined RGBD"
+                }),
             }
         }
 
@@ -149,7 +149,9 @@ class ExtractCubemapFace:
         return {
             "required": {
                 "cubemap": ("CUBEMAP",),
-                "face": (["front", "back", "left", "right", "top", "bottom"],),
+                "face": (["front", "back", "left", "right", "top", "bottom"], {
+                    "tooltip": "Which cube face to extract"
+                }),
             }
         }
 
@@ -192,7 +194,9 @@ class InsertCubemapFace:
             "required": {
                 "cubemap": ("CUBEMAP",),
                 "image": ("IMAGE",),
-                "face": (["front", "back", "left", "right", "top", "bottom"],),
+                "face": (["front", "back", "left", "right", "top", "bottom"], {
+                    "tooltip": "Which face to overwrite/insert"
+                }),
             }
         }
 

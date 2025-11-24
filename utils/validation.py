@@ -10,9 +10,8 @@ License: Apache 2.0
 
 import numpy as np
 from typing import Tuple, Dict
-import sys
-sys.path.append('..')
-from core.cubemap import CubemapData
+
+from ..core.cubemap import CubemapData
 
 
 def calculate_psnr(img1: np.ndarray, img2: np.ndarray) -> float:

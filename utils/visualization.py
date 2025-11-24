@@ -9,9 +9,8 @@ License: Apache 2.0
 
 import numpy as np
 from typing import Literal, Tuple
-import sys
-sys.path.append('..')
-from core.cubemap import CubemapData
+
+from ..core.cubemap import CubemapData
 
 
 LayoutType = Literal['horizontal', 'cross', 'vertical', 'grid']

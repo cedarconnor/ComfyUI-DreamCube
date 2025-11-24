@@ -1,0 +1,171 @@
+{
+  "3": {
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load equirectangular RGB"
+    },
+    "inputs": {
+      "image": "example_panorama.png"
+    }
+  },
+  "4": {
+    "class_type": "EquirectToCubemap",
+    "_meta": {
+      "title": "Convert to cubemap"
+    },
+    "inputs": {
+      "image": [
+        "3",
+        0
+      ],
+      "cube_resolution": 1024
+    }
+  },
+  "10": {
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Depth front"
+    },
+    "inputs": {
+      "image": "depth_front.png"
+    }
+  },
+  "11": {
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Depth back"
+    },
+    "inputs": {
+      "image": "depth_back.png"
+    }
+  },
+  "12": {
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Depth left"
+    },
+    "inputs": {
+      "image": "depth_left.png"
+    }
+  },
+  "13": {
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Depth right"
+    },
+    "inputs": {
+      "image": "depth_right.png"
+    }
+  },
+  "14": {
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Depth top"
+    },
+    "inputs": {
+      "image": "depth_top.png"
+    }
+  },
+  "15": {
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Depth bottom"
+    },
+    "inputs": {
+      "image": "depth_bottom.png"
+    }
+  },
+  "16": {
+    "class_type": "BatchCubemapDepth",
+    "_meta": {
+      "title": "Merge depth faces"
+    },
+    "inputs": {
+      "cubemap_rgb": [
+        "4",
+        0
+      ],
+      "depth_front": [
+        "10",
+        0
+      ],
+      "depth_back": [
+        "11",
+        0
+      ],
+      "depth_left": [
+        "12",
+        0
+      ],
+      "depth_right": [
+        "13",
+        0
+      ],
+      "depth_top": [
+        "14",
+        0
+      ],
+      "depth_bottom": [
+        "15",
+        0
+      ],
+      "enforce_consistency": true,
+      "normalization": "global"
+    }
+  },
+  "17": {
+    "class_type": "CubemapToEquirect",
+    "_meta": {
+      "title": "Depth back to equirect"
+    },
+    "inputs": {
+      "cubemap": [
+        "16",
+        0
+      ],
+      "output_width": 2048,
+      "output_height": 1024,
+      "output_type": "depth"
+    }
+  },
+  "18": {
+    "class_type": "CubemapPreview",
+    "_meta": {
+      "title": "Depth preview"
+    },
+    "inputs": {
+      "cubemap": [
+        "16",
+        0
+      ],
+      "layout": "cross",
+      "show_depth": true
+    }
+  },
+  "19": {
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save depth equirect"
+    },
+    "inputs": {
+      "images": [
+        "17",
+        0
+      ],
+      "filename_prefix": "dreamcube_depth"
+    }
+  },
+  "20": {
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save depth preview"
+    },
+    "inputs": {
+      "images": [
+        "18",
+        0
+      ],
+      "filename_prefix": "dreamcube_depth_preview"
+    }
+  }
+}

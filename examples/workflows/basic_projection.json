@@ -1,0 +1,79 @@
+{
+  "3": {
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load equirectangular panorama"
+    },
+    "inputs": {
+      "image": "example_panorama.png"
+    }
+  },
+  "4": {
+    "class_type": "EquirectToCubemap",
+    "_meta": {
+      "title": "Convert to cubemap"
+    },
+    "inputs": {
+      "image": [
+        "3",
+        0
+      ],
+      "cube_resolution": 1024
+    }
+  },
+  "5": {
+    "class_type": "CubemapToEquirect",
+    "_meta": {
+      "title": "Back to equirect"
+    },
+    "inputs": {
+      "cubemap": [
+        "4",
+        0
+      ],
+      "output_width": 2048,
+      "output_height": 1024,
+      "output_type": "rgb"
+    }
+  },
+  "6": {
+    "class_type": "CubemapPreview",
+    "_meta": {
+      "title": "Preview cubemap faces"
+    },
+    "inputs": {
+      "cubemap": [
+        "4",
+        0
+      ],
+      "layout": "cross",
+      "show_depth": false
+    }
+  },
+  "7": {
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save reconstructed panorama"
+    },
+    "inputs": {
+      "images": [
+        "5",
+        0
+      ],
+      "filename_prefix": "dreamcube_equirect"
+    }
+  },
+  "8": {
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save cubemap preview"
+    },
+    "inputs": {
+      "images": [
+        "6",
+        0
+      ],
+      "filename_prefix": "dreamcube_preview"
+    }
+  }
+}

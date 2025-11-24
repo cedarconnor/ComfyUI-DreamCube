@@ -269,6 +269,9 @@ Create empty cubemap for manual workflows.
 ### 1. Basic Depth Estimation
 
 Load 360° image → Equirect to Cubemap → Extract 6 faces → Apply Depth Anything to each → Batch Cubemap Depth → Cubemap to Equirect → Save
+Sample JSON prompts:
+- `examples/workflows/basic_projection.json` – minimal RGB round-trip plus preview save
+- `examples/workflows/depth_batch_example.json` – apply precomputed per-face depth maps, blend seams, and export depth
 
 ### 2. High Quality with Consistency
 
